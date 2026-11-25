@@ -2,17 +2,21 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Chúc mừng sinh nhật Phương Anh</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@600;700&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --cake-scale: 1;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      width: 100vw;
-      height: 100vh;
+    html, body {
+      width: 100%;
+      height: 100dvh;
       overflow: hidden;
       background-color: #000000;
       font-family: "Plus Jakarta Sans", system-ui, sans-serif;
@@ -22,6 +26,7 @@
       justify-content: center;
       position: relative;
       user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
     canvas#space {
@@ -32,7 +37,7 @@
       z-index: 1;
     }
 
-    /* Giai đoạn 1: Nút mở đầu + các câu dẫn chạy chậm nhẹ trên nền vũ trụ */
+    /* Giai đoạn 1: Nút mở đầu + các câu dẫn */
     .intro-stage {
       position: fixed;
       inset: 0;
@@ -41,22 +46,23 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: clamp(16px, 5vw, 32px);
       text-align: center;
       transition: opacity 0.85s ease;
     }
 
     .intro-line {
       font-family: "Quicksand", system-ui, sans-serif;
-      font-size: clamp(1.45rem, 3.8vw, 2.6rem);
+      font-size: clamp(1.3rem, 5vw, 2.6rem);
       font-weight: 600;
       color: #ffffff;
       text-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
       opacity: 0;
       transform: translateY(12px);
       transition: opacity 0.8s ease, transform 0.8s ease;
-      max-width: 780px;
+      width: min(780px, 92vw);
       line-height: 1.5;
+      word-wrap: break-word;
     }
 
     .intro-line.show {
@@ -64,18 +70,19 @@
       transform: translateY(0);
     }
 
-    /* Nút bấm chung cho mở đầu và mở bí mật */
     .reveal-btn {
       font-family: "Quicksand", system-ui, sans-serif;
-      padding: 15px 30px;
+      padding: clamp(12px, 3vw, 15px) clamp(22px, 5vw, 30px);
       border-radius: 999px;
       border: 1.5px solid rgba(255, 230, 153, 0.65);
       background: rgba(255, 255, 255, 0.08);
       color: #fff;
-      font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+      font-size: clamp(0.98rem, 3.8vw, 1.35rem);
       font-weight: 700;
       letter-spacing: 0.4px;
       cursor: pointer;
+      max-width: 90vw;
+      line-height: 1.4;
       box-shadow: 0 0 24px rgba(255, 214, 224, 0.25);
       opacity: 0;
       transform: scale(0.94);
@@ -94,7 +101,7 @@
       transform: scale(1.05);
     }
 
-    /* Giai đoạn 2: HAPPY BIRTHDAY to đùng nhấp nháy rồi biến mất */
+    /* Giai đoạn 2: HAPPY BIRTHDAY to đùng nhấp nháy */
     .hbd-flash-stage {
       position: fixed;
       inset: 0;
@@ -103,7 +110,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 16px;
       text-align: center;
       opacity: 0;
       transition: opacity 0.85s ease;
@@ -118,10 +125,12 @@
       position: relative;
       z-index: 2;
       font-family: "Quicksand", system-ui, sans-serif;
-      font-size: clamp(3.2rem, 11vw, 8.2rem);
+      font-size: clamp(2.3rem, 9.5vw, 8rem);
       font-weight: 700;
-      letter-spacing: 3px;
-      line-height: 1.05;
+      letter-spacing: clamp(1px, 0.5vw, 3px);
+      line-height: 1.12;
+      max-width: 94vw;
+      word-wrap: break-word;
       background: linear-gradient(90deg, #ffd6e0, #ffe699, #bde0fe, #ffc6ff, #ffd6e0);
       background-size: 250% auto;
       -webkit-background-clip: text;
@@ -188,18 +197,18 @@
         opacity: 0.94;
       }
       50% {
-        transform: translateY(-55vh) translateX(var(--sway, 18px)) rotate(4deg);
+        transform: translateY(-55dvh) translateX(var(--sway, 18px)) rotate(4deg);
       }
       88% {
         opacity: 0.9;
       }
       100% {
-        transform: translateY(-122vh) translateX(calc(var(--sway, 18px) * -0.6)) rotate(-3deg);
+        transform: translateY(-122dvh) translateX(calc(var(--sway, 18px) * -0.6)) rotate(-3deg);
         opacity: 0;
       }
     }
 
-    /* Giai đoạn 2.5: Chiếc bánh kem đẹp + ngọn nến chờ 15s */
+    /* Giai đoạn 2.5: Chiếc bánh kem tự co giãn theo màn hình */
     .cake-stage {
       position: fixed;
       inset: 0;
@@ -209,7 +218,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 16px;
       text-align: center;
       opacity: 0;
       transition: opacity 0.85s ease;
@@ -222,11 +231,18 @@
 
     .cake-title {
       font-family: "Quicksand", system-ui, sans-serif;
-      font-size: clamp(1.55rem, 3.8vw, 2.55rem);
+      font-size: clamp(1.35rem, 4.5vw, 2.55rem);
       font-weight: 700;
       color: #ffe699;
-      margin-bottom: 44px;
+      margin-bottom: clamp(20px, 5dvh, 44px);
       text-shadow: 0 0 18px rgba(255, 230, 153, 0.35);
+    }
+
+    .cake-scale-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: calc(280px * var(--cake-scale));
     }
 
     .big-cake {
@@ -235,12 +251,14 @@
       flex-direction: column;
       align-items: center;
       cursor: pointer;
+      transform: scale(var(--cake-scale));
+      transform-origin: center center;
       transition: transform 0.25s ease;
       filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.7));
     }
 
     .big-cake:hover {
-      transform: scale(1.03);
+      transform: scale(calc(var(--cake-scale) * 1.03));
     }
 
     .big-candle {
@@ -435,15 +453,17 @@
     }
 
     .cake-hint {
-      margin-top: 28px;
+      margin-top: clamp(16px, 3.5dvh, 28px);
       font-family: "Quicksand", system-ui, sans-serif;
-      font-size: clamp(1.1rem, 2.3vw, 1.38rem);
+      font-size: clamp(0.95rem, 3.5vw, 1.38rem);
       font-weight: 700;
       color: #ffd6e0;
+      max-width: 90vw;
+      line-height: 1.45;
       text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9);
     }
 
-    /* Giai đoạn 2.8: Câu chuyển tiếp sau bánh kem, trước lời chúc cuối */
+    /* Giai đoạn 2.8: Câu chuyển tiếp */
     .tease-stage {
       position: fixed;
       inset: 0;
@@ -452,7 +472,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: clamp(16px, 5vw, 32px);
       text-align: center;
       opacity: 0;
       transition: opacity 0.85s ease;
@@ -466,10 +486,10 @@
     .tease-text {
       font-family: "Quicksand", system-ui, sans-serif;
       font-style: italic;
-      font-size: clamp(1.45rem, 3.8vw, 2.55rem);
+      font-size: clamp(1.3rem, 4.8vw, 2.55rem);
       font-weight: 700;
       line-height: 1.45;
-      max-width: 760px;
+      width: min(760px, 92vw);
       background: linear-gradient(90deg, #ffd6e0, #ffe699, #bde0fe, #ffc6ff, #ffd6e0);
       background-size: 250% auto;
       -webkit-background-clip: text;
@@ -483,17 +503,23 @@
       100% { transform: translateY(-5px) scale(1.02); }
     }
 
-    /* Giai đoạn 3: Màn cuối - từng dòng hiện lần lượt, lời chúc chạy nối đuôi từng từ, chờ 20s rồi sang BAI BAI */
+    /* Giai đoạn 3: Màn cuối - tự co giãn theo mọi kích cỡ thiết bị */
     .content {
       position: relative;
       z-index: 2;
       text-align: center;
-      padding: 24px;
-      width: 100%;
-      max-width: 1120px;
+      padding: clamp(16px, 4vw, 28px);
+      width: min(1120px, 94vw);
+      max-height: 92dvh;
+      overflow-y: auto;
+      scrollbar-width: none;
       display: none;
       opacity: 1;
       transition: opacity 0.95s ease;
+    }
+
+    .content::-webkit-scrollbar {
+      display: none;
     }
 
     .content.visible {
@@ -518,11 +544,12 @@
 
     .main-title {
       font-family: "Quicksand", system-ui, sans-serif;
-      font-size: clamp(1.6rem, 4.2vw, 3.5rem);
+      font-size: clamp(1.4rem, 5.4vw, 3.4rem);
       font-weight: 700;
-      letter-spacing: 0.4px;
-      line-height: 1.2;
-      white-space: nowrap;
+      letter-spacing: 0.3px;
+      line-height: 1.28;
+      white-space: normal;
+      word-break: keep-all;
       background: linear-gradient(90deg, #ffd6e0, #ffe699, #bde0fe, #ffc6ff, #ffd6e0);
       background-size: 250% auto;
       -webkit-background-clip: text;
@@ -531,17 +558,23 @@
       filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.25));
     }
 
+    @media (min-width: 900px) {
+      .main-title {
+        white-space: nowrap;
+      }
+    }
+
     @keyframes shine {
       to { background-position: 250% center; }
     }
 
     .wish {
-      margin-top: 20px;
+      margin-top: clamp(14px, 3dvh, 22px);
       font-style: italic;
-      font-size: clamp(1.08rem, 2.2vw, 1.42rem);
-      line-height: 1.72;
+      font-size: clamp(0.98rem, 3.4vw, 1.42rem);
+      line-height: 1.68;
       color: #e5e7eb;
-      max-width: 740px;
+      width: min(740px, 100%);
       margin-left: auto;
       margin-right: auto;
       opacity: 1;
@@ -561,13 +594,13 @@
     }
 
     .kr {
-      margin-top: 14px;
-      font-size: 1.2rem;
+      margin-top: clamp(12px, 2.5dvh, 18px);
+      font-size: clamp(1.05rem, 3.6vw, 1.25rem);
       font-weight: 600;
       color: #fde68a;
     }
 
-    /* Giai đoạn 4: BAI BAI hiện ra sau khi lời chúc biến mất (10s + bóng bay) */
+    /* Giai đoạn 4: BAI BAI */
     .bai-bai-stage {
       position: fixed;
       inset: 0;
@@ -576,7 +609,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 20px;
       text-align: center;
       opacity: 0;
       transition: opacity 0.9s ease;
@@ -591,9 +624,9 @@
       position: relative;
       z-index: 2;
       font-family: "Quicksand", system-ui, sans-serif;
-      font-size: clamp(2.4rem, 6.2vw, 4.4rem);
+      font-size: clamp(2.1rem, 8.5vw, 4.4rem);
       font-weight: 700;
-      letter-spacing: 5px;
+      letter-spacing: clamp(3px, 1vw, 5px);
       background: linear-gradient(90deg, #ffd6e0, #ffe699, #bde0fe, #ffc6ff, #ffd6e0);
       background-size: 250% auto;
       -webkit-background-clip: text;
@@ -616,7 +649,7 @@
       display: none;
       align-items: flex-end;
       justify-content: center;
-      padding: 36px 24px;
+      padding: clamp(24px, 6dvh, 42px) 20px;
       opacity: 0;
       transition: opacity 0.8s ease;
       pointer-events: none;
@@ -630,12 +663,12 @@
 
     .replay-btn {
       font-family: "Quicksand", system-ui, sans-serif;
-      padding: 9px 18px;
+      padding: 10px 20px;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.28);
-      background: rgba(255, 255, 255, 0.06);
-      color: rgba(255, 255, 255, 0.85);
-      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.9);
+      font-size: clamp(0.88rem, 3.2vw, 0.95rem);
       font-weight: 600;
       letter-spacing: 0.3px;
       cursor: pointer;
@@ -659,12 +692,12 @@
 
   <!-- 1. Nút mở đầu -> các câu dẫn chạy chậm nhẹ -> nút bấm mở bí mật -->
   <div class="intro-stage" id="introStage">
-    <button class="reveal-btn show" id="startBtn" onclick="beginIntroFromButton()">bất ngờ ở đây nè ✨</button>
+    <button class="reveal-btn show" id="startBtn" onclick="beginIntroFromButton()">bấm vào đây đi bà ơi ✨</button>
     <div class="intro-line" id="introLine" style="display: none;"></div>
     <button class="reveal-btn" id="revealBtn" style="display: none;" onclick="startBirthdayFinale()">dù biết rồi thì cứ bấm đi 😉</button>
   </div>
 
-  <!-- 2. Dòng HAPPY BIRTHDAY to đùng nhấp nháy rồi biến mất (nhạc phát ngay từ đây + bóng bay) -->
+  <!-- 2. Dòng HAPPY BIRTHDAY to đùng nhấp nháy rồi biến mất -->
   <div class="hbd-flash-stage" id="hbdFlashStage">
     <div class="hbd-big-blink">HAPPY BIRTHDAY</div>
   </div>
@@ -673,40 +706,42 @@
   <div class="cake-stage" id="cakeStage">
     <div class="cake-title">Ước nguyện đi nào ✨</div>
 
-    <div class="big-cake" onclick="blowOutCandle()">
-      <div class="big-candle">
-        <div class="big-flame" id="bigFlame"></div>
-      </div>
-
-      <div class="top-berries">
-        <div class="berry"></div>
-        <div class="berry center"></div>
-        <div class="berry"></div>
-      </div>
-
-      <div class="big-tier-top">
-        <div class="sprinkles">
-          <span style="top:12px;left:18px;background:#ff595e;transform:rotate(25deg)"></span>
-          <span style="top:18px;left:64px;background:#ffca3a;transform:rotate(-30deg)"></span>
-          <span style="top:10px;left:118px;background:#8ac926;transform:rotate(40deg)"></span>
-          <span style="top:20px;left:162px;background:#1982c4;transform:rotate(-20deg)"></span>
+    <div class="cake-scale-box">
+      <div class="big-cake" onclick="blowOutCandle()">
+        <div class="big-candle">
+          <div class="big-flame" id="bigFlame"></div>
         </div>
-      </div>
 
-      <div class="big-tier-bottom">
-        <div class="sprinkles">
-          <span style="top:14px;left:28px;background:#ff595e;transform:rotate(-25deg)"></span>
-          <span style="top:22px;left:82px;background:#ffe066;transform:rotate(35deg)"></span>
-          <span style="top:12px;left:145px;background:#ff70a6;transform:rotate(-15deg)"></span>
-          <span style="top:24px;left:206px;background:#a3f7bf;transform:rotate(28deg)"></span>
-          <span style="top:15px;left:255px;background:#ffd166;transform:rotate(-35deg)"></span>
+        <div class="top-berries">
+          <div class="berry"></div>
+          <div class="berry center"></div>
+          <div class="berry"></div>
         </div>
-        <div class="pearl-rim"></div>
-      </div>
 
-      <div class="cake-stand">
-        <div class="big-plate"></div>
-        <div class="stand-base"></div>
+        <div class="big-tier-top">
+          <div class="sprinkles">
+            <span style="top:12px;left:18px;background:#ff595e;transform:rotate(25deg)"></span>
+            <span style="top:18px;left:64px;background:#ffca3a;transform:rotate(-30deg)"></span>
+            <span style="top:10px;left:118px;background:#8ac926;transform:rotate(40deg)"></span>
+            <span style="top:20px;left:162px;background:#1982c4;transform:rotate(-20deg)"></span>
+          </div>
+        </div>
+
+        <div class="big-tier-bottom">
+          <div class="sprinkles">
+            <span style="top:14px;left:28px;background:#ff595e;transform:rotate(-25deg)"></span>
+            <span style="top:22px;left:82px;background:#ffe066;transform:rotate(35deg)"></span>
+            <span style="top:12px;left:145px;background:#ff70a6;transform:rotate(-15deg)"></span>
+            <span style="top:24px;left:206px;background:#a3f7bf;transform:rotate(28deg)"></span>
+            <span style="top:15px;left:255px;background:#ffd166;transform:rotate(-35deg)"></span>
+          </div>
+          <div class="pearl-rim"></div>
+        </div>
+
+        <div class="cake-stand">
+          <div class="big-plate"></div>
+          <div class="stand-base"></div>
+        </div>
       </div>
     </div>
 
@@ -767,7 +802,9 @@
     const bigFlame = document.getElementById("bigFlame");
     const cakeHint = document.getElementById("cakeHint");
     const mainContent = document.getElementById("mainContent");
+    const line1El = document.getElementById("line1");
     const line2El = document.getElementById("line2");
+    const line3El = document.getElementById("line3");
     const baiBaiStage = document.getElementById("baiBaiStage");
     const replayStage = document.getElementById("replayStage");
 
@@ -775,11 +812,27 @@
     let mainStageStarted = false;
     let fireworksTimer = null;
     let balloonTimer = null;
+    let byeBalloonTimer = null;
     let candleBlown = false;
+    const activeTimeouts = new Set();
+
+    function trackTimeout(fn, ms) {
+      const id = setTimeout(() => {
+        activeTimeouts.delete(id);
+        fn();
+      }, ms);
+      activeTimeouts.add(id);
+      return id;
+    }
+
+    function clearAllTrackedTimeouts() {
+      activeTimeouts.forEach(id => clearTimeout(id));
+      activeTimeouts.clear();
+    }
 
     function wait(ms, token = runToken) {
       return new Promise((resolve, reject) => {
-        setTimeout(() => {
+        trackTimeout(() => {
           if (token !== runToken) reject(new Error("cancelled"));
           else resolve();
         }, ms);
@@ -789,10 +842,11 @@
     function spawnBalloon() {
       const b = document.createElement("div");
       const theme = balloonPalette[Math.floor(Math.random() * balloonPalette.length)];
-      const size = Math.floor(Math.random() * 22) + 46;
-      const left = Math.random() * 88 + 6;
+      const baseSize = window.innerWidth < 500 ? 38 : 46;
+      const size = Math.floor(Math.random() * 18) + baseSize;
+      const left = Math.random() * 84 + 6;
       const durNum = Number((Math.random() * 1.4 + 4.2).toFixed(1));
-      const sway = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 22) + 12) + "px";
+      const sway = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 18) + 10) + "px";
 
       b.className = "balloon";
       b.style.setProperty("--size", size + "px");
@@ -803,10 +857,10 @@
       b.style.left = left + "%";
 
       balloonLayer.appendChild(b);
-      setTimeout(() => b.remove(), (durNum + 0.5) * 1000);
+      trackTimeout(() => b.remove(), (durNum + 0.5) * 1000);
     }
 
-    function runBalloonsAndWaitFinish(count = 11, intervalMs = 190, token = runToken) {
+    function runBalloonsAndWaitFinish(count = 10, intervalMs = 180, token = runToken) {
       stopBalloonBurst();
       return new Promise((resolve, reject) => {
         let spawned = 0;
@@ -819,10 +873,11 @@
             return;
           }
           const theme = balloonPalette[Math.floor(Math.random() * balloonPalette.length)];
-          const size = Math.floor(Math.random() * 22) + 46;
-          const left = Math.random() * 88 + 6;
+          const baseSize = window.innerWidth < 500 ? 38 : 46;
+          const size = Math.floor(Math.random() * 18) + baseSize;
+          const left = Math.random() * 84 + 6;
           const durNum = Number((Math.random() * 1.2 + 3.8).toFixed(1));
-          const sway = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 22) + 12) + "px";
+          const sway = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 18) + 10) + "px";
 
           const b = document.createElement("div");
           b.className = "balloon";
@@ -834,7 +889,7 @@
           b.style.left = left + "%";
 
           balloonLayer.appendChild(b);
-          setTimeout(() => b.remove(), (durNum + 0.4) * 1000);
+          trackTimeout(() => b.remove(), (durNum + 0.4) * 1000);
 
           const elapsed = spawned * intervalMs;
           maxFinishTime = Math.max(maxFinishTime, elapsed + durNum * 1000);
@@ -843,7 +898,7 @@
           if (spawned >= count) {
             stopBalloonBurst();
             const waitLeft = Math.max(0, maxFinishTime - elapsed);
-            setTimeout(() => {
+            trackTimeout(() => {
               if (token !== runToken) reject(new Error("cancelled"));
               else resolve();
             }, waitLeft);
@@ -859,6 +914,10 @@
       if (balloonTimer) {
         clearInterval(balloonTimer);
         balloonTimer = null;
+      }
+      if (byeBalloonTimer) {
+        clearInterval(byeBalloonTimer);
+        byeBalloonTimer = null;
       }
     }
 
@@ -945,6 +1004,8 @@
         introStage.style.display = "none";
 
         // Hiện HAPPY BIRTHDAY to đùng nhấp nháy + nhạc + bóng bay bay lên hết rồi mới sang bánh kem
+        hbdFlashStage.style.display = "flex";
+        hbdFlashStage.style.opacity = "1";
         hbdFlashStage.classList.add("active");
         startMusic();
         await runBalloonsAndWaitFinish(10, 180, token);
@@ -955,6 +1016,8 @@
         hbdFlashStage.style.display = "none";
 
         // Hiện bánh kem đẹp + ngọn nến chờ 15s
+        cakeStage.style.display = "flex";
+        cakeStage.style.opacity = "1";
         cakeStage.classList.add("active");
         await wait(15000, token);
 
@@ -964,6 +1027,8 @@
         cakeStage.style.display = "none";
 
         // Câu chuyển tiếp sau khi bánh kem biến mất
+        teaseStage.style.display = "flex";
+        teaseStage.style.opacity = "1";
         teaseStage.classList.add("active");
         await wait(3500, token);
 
@@ -974,15 +1039,17 @@
 
         // Mở màn cuối + tự bắn pháo hoa tung bùm bùm
         mainStageStarted = true;
+        mainContent.style.display = "block";
+        mainContent.classList.remove("fade-out");
         mainContent.classList.add("visible");
         startAutoFireworks();
 
         await wait(300, token);
-        document.getElementById("line1").classList.add("show");
+        line1El.classList.add("show");
         await wait(900, token);
         await revealWishWordByWord(finalWishText, token);
         await wait(700, token);
-        document.getElementById("line3").classList.add("show");
+        line3El.classList.add("show");
 
         await wait(20000, token);
 
@@ -992,81 +1059,112 @@
         mainContent.style.display = "none";
 
         // Hiện BAI BAI trong 10s + bóng bay bay lên
+        baiBaiStage.style.display = "flex";
+        baiBaiStage.style.opacity = "1";
         baiBaiStage.classList.add("active");
-        const loopBallon = setInterval(() => {
+        byeBalloonTimer = setInterval(() => {
           if (token === runToken) spawnBalloon();
         }, 280);
         await wait(10000, token);
-        clearInterval(loopBallon);
         stopBalloonBurst();
 
         // Hiện nút nhỏ quay lại từ đầu ở cuối
+        replayStage.style.display = "flex";
+        replayStage.style.opacity = "1";
         replayStage.classList.add("active");
       } catch (_) {}
     }
 
     function restartExperience() {
       runToken++;
+      clearAllTrackedTimeouts();
       stopBalloonBurst();
+      stopMusic();
+
       if (fireworksTimer) {
         clearInterval(fireworksTimer);
         fireworksTimer = null;
       }
+
       mainStageStarted = false;
       candleBlown = false;
       balloonLayer.innerHTML = "";
       sparks = [];
       shooting = [];
 
+      // Reset màn Replay & BAI BAI
       replayStage.classList.remove("active");
+      replayStage.style.opacity = "0";
+      replayStage.style.display = "none";
+
       baiBaiStage.classList.remove("active");
       baiBaiStage.style.opacity = "0";
       baiBaiStage.style.display = "none";
 
+      // Reset màn lời chúc cuối
       mainContent.classList.remove("visible", "fade-out");
       mainContent.style.display = "none";
-      document.getElementById("line1").classList.remove("show");
+      mainContent.scrollTop = 0;
+      line1El.classList.remove("show");
       line2El.innerHTML = "";
-      document.getElementById("line3").classList.remove("show");
+      line3El.classList.remove("show");
 
+      // Reset câu chuyển tiếp
       teaseStage.classList.remove("active");
       teaseStage.style.opacity = "0";
       teaseStage.style.display = "none";
 
+      // Reset bánh kem & ngọn nến
       cakeStage.classList.remove("active");
       cakeStage.style.opacity = "0";
       cakeStage.style.display = "none";
       bigFlame.classList.remove("blown");
       cakeHint.textContent = "ước xong thì hãy thổi nến để ước nguyện được ông trời nghe thấy";
 
+      // Reset HAPPY BIRTHDAY
       hbdFlashStage.classList.remove("active");
       hbdFlashStage.style.opacity = "0";
       hbdFlashStage.style.display = "none";
 
+      // Reset màn mở đầu về đúng nút bấm ban đầu
+      introLine.textContent = "";
       introLine.classList.remove("show");
       introLine.style.display = "none";
+
       revealBtn.classList.remove("show");
       revealBtn.style.display = "none";
       revealBtn.style.pointerEvents = "auto";
 
       introStage.style.display = "flex";
       introStage.style.opacity = "1";
+
       startBtn.style.display = "inline-block";
       startBtn.style.pointerEvents = "auto";
-      setTimeout(() => startBtn.classList.add("show"), 60);
+      startBtn.classList.remove("show");
+      requestAnimationFrame(() => {
+        startBtn.classList.add("show");
+      });
     }
 
-    // --- VŨ TRỤ ĐẶC SẮC HƠN (TINH VÂN TRÔI NHẸ + BỤI SAO + SAO LẤP LÁNH + SAO BĂNG + PHÁO HOA) ---
+    // --- VŨ TRỤ + TỰ ĐỘNG ĐIỀU CHỈNH TỶ LỆ THEO MỌI MÀN HÌNH ---
     const spaceCanvas = document.getElementById("space");
     const ctx = spaceCanvas.getContext("2d");
     let W, H;
 
-    function resize() {
+    function updateResponsiveScale() {
       W = spaceCanvas.width = window.innerWidth;
       H = spaceCanvas.height = window.innerHeight;
+
+      // Tự tính tỷ lệ bánh kem để vừa khít cả điện thoại dọc lẫn ngang
+      const widthScale = (W * 0.88) / 364;
+      const heightScale = (H * 0.46) / 280;
+      const cakeScale = Math.max(0.55, Math.min(1.08, widthScale, heightScale));
+      document.documentElement.style.setProperty("--cake-scale", cakeScale.toFixed(3));
     }
-    window.addEventListener("resize", resize);
-    resize();
+
+    window.addEventListener("resize", updateResponsiveScale);
+    window.addEventListener("orientationchange", () => setTimeout(updateResponsiveScale, 150));
+    updateResponsiveScale();
 
     const nebulae = [
       { x: 0.22, y: 0.28, r: 280, color: "rgba(255, 130, 180, 0.055)", dx: 0.00018, dy: 0.00012, phase: 0 },
@@ -1128,8 +1226,8 @@
     function startAutoFireworks() {
       if (fireworksTimer) clearInterval(fireworksTimer);
       boom(W * 0.28, H * 0.32);
-      setTimeout(() => boom(W * 0.72, H * 0.32), 350);
-      setTimeout(() => boom(W * 0.5, H * 0.24), 700);
+      trackTimeout(() => { if (mainStageStarted) boom(W * 0.72, H * 0.32); }, 350);
+      trackTimeout(() => { if (mainStageStarted) boom(W * 0.5, H * 0.24); }, 700);
 
       fireworksTimer = setInterval(() => {
         if (!mainStageStarted) return;
@@ -1232,6 +1330,7 @@
     let audioCtx = null;
     let playing = false;
     let loopId = null;
+    let activeOscillators = [];
 
     const melody = [
       [261.63, 0.35], [261.63, 0.25], [293.66, 0.6], [261.63, 0.6], [349.23, 0.6], [329.63, 1.1],
@@ -1262,6 +1361,7 @@
         gain.connect(audioCtx.destination);
         osc.start(t);
         osc.stop(t + dur);
+        activeOscillators.push(osc);
         t += dur;
       });
 
@@ -1274,6 +1374,18 @@
       playing = true;
       playLoop();
     }
+
+    function stopMusic() {
+      playing = false;
+      if (loopId) {
+        clearTimeout(loopId);
+        loopId = null;
+      }
+      activeOscillators.forEach(osc => {
+        try { osc.stop(); } catch (_) {}
+      });
+      activeOscillators = [];
+    }
   </script>
 </body>
-</html>
+  </html>
