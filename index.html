@@ -37,32 +37,150 @@
       z-index: 1;
     }
 
-    /* Nhãn dán nhỏ xinh ở góc */
+    /* Nhãn dán con thỏ tỏa tim ở góc */
     .corner-sticker {
       position: fixed;
-      top: clamp(12px, 2.6dvh, 22px);
-      right: clamp(12px, 3vw, 24px);
+      top: clamp(10px, 2.4dvh, 20px);
+      right: clamp(10px, 2.8vw, 22px);
       z-index: 12;
-      padding: 6px 13px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, rgba(255, 143, 171, 0.22), rgba(255, 224, 102, 0.2));
-      border: 1px solid rgba(255, 214, 224, 0.55);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      font-family: "Quicksand", system-ui, sans-serif;
-      font-size: clamp(0.76rem, 2.5vw, 0.92rem);
-      font-weight: 700;
-      letter-spacing: 0.4px;
-      color: #ffe699;
-      box-shadow: 0 4px 16px rgba(255, 143, 171, 0.22);
-      transform: rotate(5deg);
+      width: clamp(68px, 15vw, 88px);
+      height: clamp(68px, 15vw, 88px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       pointer-events: none;
-      animation: stickerWiggle 3.2s ease-in-out infinite alternate;
+      filter: drop-shadow(0 6px 16px rgba(255, 143, 171, 0.35));
     }
 
-    @keyframes stickerWiggle {
-      0%   { transform: rotate(4deg) translateY(0); }
-      100% { transform: rotate(8deg) translateY(-3px); }
+    .bunny-badge {
+      position: relative;
+      width: 50px;
+      height: 50px;
+      border-radius: 18px;
+      background: linear-gradient(155deg, #fff8fb 0%, #ffe3ec 65%, #ffd1e1 100%);
+      border: 2px solid #ffffff;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35), inset 0 -3px 6px rgba(255, 112, 166, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(6deg);
+      animation: bunnyHop 2.4s ease-in-out infinite alternate;
+    }
+
+    .bunny-ear {
+      position: absolute;
+      top: -15px;
+      width: 11px;
+      height: 22px;
+      background: linear-gradient(180deg, #fff9fb, #ffd6e5);
+      border: 2px solid #ffffff;
+      border-radius: 999px 999px 4px 4px;
+    }
+
+    .bunny-ear::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 5px;
+      height: 12px;
+      border-radius: 999px;
+      background: #ff8fab;
+      opacity: 0.75;
+    }
+
+    .bunny-ear.left {
+      left: 8px;
+      transform: rotate(-10deg);
+    }
+
+    .bunny-ear.right {
+      right: 8px;
+      transform: rotate(10deg);
+    }
+
+    .bunny-face {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-top: 4px;
+    }
+
+    .bunny-eyes {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 2px;
+    }
+
+    .bunny-eyes span {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #3b1d2a;
+    }
+
+    .bunny-cheeks {
+      position: absolute;
+      top: 24px;
+      left: 6px;
+      right: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .bunny-cheeks span {
+      width: 7px;
+      height: 4px;
+      border-radius: 999px;
+      background: #ff758f;
+      opacity: 0.55;
+    }
+
+    .bunny-mouth {
+      font-size: 9px;
+      line-height: 1;
+      color: #d6336c;
+      font-weight: 700;
+    }
+
+    .aura-heart {
+      position: absolute;
+      font-size: var(--ah-size, 13px);
+      color: var(--ah-color, #ff8fab);
+      text-shadow: 0 0 10px rgba(255, 143, 171, 0.75);
+      opacity: 0;
+      animation: auraHeartRadiate var(--ah-dur, 2.2s) ease-out infinite;
+      animation-delay: var(--ah-delay, 0s);
+    }
+
+    .aura-heart.h1 { top: -4px; left: 2px; --ah-tx: -14px; --ah-ty: -16px; --ah-size: 13px; --ah-color: #ff8fab; --ah-delay: 0s; }
+    .aura-heart.h2 { top: -6px; right: 2px; --ah-tx: 15px; --ah-ty: -15px; --ah-size: 14px; --ah-color: #ffc6ff; --ah-delay: 0.45s; }
+    .aura-heart.h3 { bottom: 4px; left: -4px; --ah-tx: -16px; --ah-ty: 8px; --ah-size: 12px; --ah-color: #ffe699; --ah-delay: 0.9s; }
+    .aura-heart.h4 { bottom: 2px; right: -4px; --ah-tx: 16px; --ah-ty: 10px; --ah-size: 13px; --ah-color: #ff758f; --ah-delay: 1.35s; }
+    .aura-heart.h5 { top: 22px; left: -7px; --ah-tx: -18px; --ah-ty: -4px; --ah-size: 11px; --ah-color: #ffd6e0; --ah-delay: 1.75s; }
+
+    @keyframes auraHeartRadiate {
+      0% {
+        transform: translate(0, 0) scale(0.4);
+        opacity: 0;
+      }
+      25% {
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--ah-tx, -12px), var(--ah-ty, -14px)) scale(1.25);
+        opacity: 0;
+      }
+    }
+
+    @keyframes bunnyHop {
+      0%   { transform: rotate(5deg) translateY(0); }
+      100% { transform: rotate(8deg) translateY(-4px); }
     }
 
     /* Lớp tim bay xuyên suốt */
@@ -254,9 +372,13 @@
     .balloon-layer {
       position: fixed;
       inset: 0;
-      z-index: 7;
+      z-index: 9;
       pointer-events: none;
       overflow: hidden;
+    }
+
+    .balloon-layer.interactive-pop {
+      pointer-events: auto;
     }
 
     .balloon {
@@ -269,6 +391,11 @@
       box-shadow: inset -6px -8px 14px rgba(0, 0, 0, 0.18), 0 0 18px var(--glow, rgba(255, 143, 171, 0.35));
       opacity: 0.92;
       animation: balloonRise var(--dur, 5.5s) ease-in forwards;
+    }
+
+    .balloon.poppable {
+      cursor: pointer;
+      pointer-events: auto;
     }
 
     .balloon::before {
@@ -292,6 +419,31 @@
       width: 1.5px;
       height: 54px;
       background: linear-gradient(to bottom, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.05));
+    }
+
+    .pop-burst {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      margin-left: -6px;
+      margin-top: -6px;
+      border-radius: 50%;
+      background: var(--pop-color, #ff8fab);
+      box-shadow: 0 0 12px var(--pop-color, #ff8fab);
+      pointer-events: none;
+      z-index: 11;
+      animation: popParticle 0.55s ease-out forwards;
+    }
+
+    @keyframes popParticle {
+      0% {
+        transform: translate(0, 0) scale(1.1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--px, 24px), var(--py, -24px)) scale(0.1);
+        opacity: 0;
+      }
     }
 
     @keyframes balloonRise {
@@ -770,7 +922,7 @@
     .replay-stage {
       position: fixed;
       inset: 0;
-      z-index: 10;
+      z-index: 12;
       background: transparent;
       display: none;
       align-items: flex-end;
@@ -813,8 +965,29 @@
 
   <canvas id="space"></canvas>
 
-  <!-- Nhãn dán nhỏ xinh ở góc -->
-  <div class="corner-sticker">17+ LUV ✨</div>
+  <!-- Nhãn dán con thỏ tỏa tim ở góc -->
+  <div class="corner-sticker" aria-hidden="true">
+    <span class="aura-heart h1">♥</span>
+    <span class="aura-heart h2">♥</span>
+    <span class="aura-heart h3">♡</span>
+    <span class="aura-heart h4">♥</span>
+    <span class="aura-heart h5">♥</span>
+    <div class="bunny-badge">
+      <span class="bunny-ear left"></span>
+      <span class="bunny-ear right"></span>
+      <div class="bunny-face">
+        <div class="bunny-eyes">
+          <span></span>
+          <span></span>
+        </div>
+        <div class="bunny-cheeks">
+          <span></span>
+          <span></span>
+        </div>
+        <div class="bunny-mouth">ω</div>
+      </div>
+    </div>
+  </div>
 
   <!-- Lớp tim bay xuyên suốt -->
   <div class="heart-layer" id="heartLayer"></div>
@@ -824,9 +997,9 @@
 
   <!-- 1. Nút mở đầu -> các câu dẫn chạy chậm nhẹ -> nút bấm mở bí mật -->
   <div class="intro-stage" id="introStage">
-    <button class="reveal-btn show" id="startBtn" onclick="beginIntroFromButton()">bấm vào đây đi bà ơi ✨</button>
+    <button class="reveal-btn show" id="startBtn" onclick="beginIntroFromButton()">muốn coi bất ngờ thì ấn dô ✨</button>
     <div class="intro-line" id="introLine" style="display: none;"></div>
-    <button class="reveal-btn" id="revealBtn" style="display: none;" onclick="startBirthdayFinale()">dù biết rồi thì cứ bấm đi 😉</button>
+    <button class="reveal-btn" id="revealBtn" style="display: none;" onclick="startBirthdayFinale()">tu bi con tờ niu</button>
   </div>
 
   <!-- 2. Dòng HAPPY BIRTHDAY to đùng nhấp nháy rồi biến mất -->
@@ -885,7 +1058,7 @@
 
   <!-- 2.8. Câu chuyển tiếp sau khi bánh kem biến mất -->
   <div class="tease-stage" id="teaseStage">
-    <div class="tease-text">chờ chút~~~, chưa có hết đâu bà ơi, còn lời chúc của tui nữa</div>
+    <div class="tease-text">chờ chút~~~, chưa có hết đâu bà oii, còn lời chúc của tui nữa:>></div>
   </div>
 
   <!-- 3. Màn cuối: từng dòng hiện lần lượt, lời chúc chạy nối đuôi từng từ, chờ 20s rồi sang BAI BAI -->
@@ -895,9 +1068,9 @@
     <div class="kr line-reveal" id="line3">생일 축하합니다! ✨</div>
   </div>
 
-  <!-- 4. BAI BAI xuất hiện sau khi lời chúc biến mất (10s + bóng bay) -->
+  <!-- 4. BAI BAI xuất hiện sau khi lời chúc biến mất (10s + bóng bay vừa bay vừa nổ có tiếng) -->
   <div class="bai-bai-stage" id="baiBaiStage">
-    <div class="bai-bai">Hết Roi, Muốn nữa thì nhớ ước cho mình có đủ trình để gửi cho PA cái dài hơn nhé:)) *giỡn*😁</div>
+    <div class="bai-bai">BAI BAI</div>
   </div>
 
   <!-- 5. Nút nhỏ quay lại từ đầu -->
@@ -907,16 +1080,16 @@
 
   <script>
     const introLines = [
-      "hello🙋‍♀️",
+      "hello",
       "Phương Anh ơiii.",
-      "Phương Anh àa.",
-      "Phương Anh biết hôm nay là ngày gì koo🤔????.",
-      "kh biết thì bây giờ sẽ biết, OK? 😝",
-      "hehehehe😎."
+      "Phương Anh àaa.",
+      "Phương Anh biết hôm nay là ngày gì không????.",
+      "không biết thì bây giờ sẽ biết, OK? 😝",
+      "hehehehe."
     ];
 
     const finalWishText =
-      "Tuổi 17 bẻ gãy sừng trâu!!!!, chúc Phương Anh tuổi mới an lành, mạnh giỏi, hạnh phúc, đạt được nhiều thành tích tốt trong học tập và dũng cảm theo đuổi các mục tiêu của bản thân nhée. Ăn uống đầy đủ protein, chất béo, chất khoáng, chất xơ, vitamin để còn có nhiều sức khỏe còn húc tung cổng đại học 🏫. Tuổi mới đọc được nhiều sách gấp đôi tuổi cũ nữa📚. Chúc Phương Anh sẽ luôn tỏa sáng theo cách riêng của mình và là niềm tự hào của gia đình, numberone girl 🎊🎉🎊💥💪💪💌🍎🍇🍏🍐🍋🍌🥭🍦🎂🎂❤️❤️❤️😘, luv u luv u!!";
+      "Tuổi 17 bẻ gãy sừng trâu!!!!, chúc Phương Anh tuổi mới an lành, mạnh giỏi, hạnh phúc, đạt được nhiều thành tích tốt trong học tập và dũng cảm theo đuổi các mục tiêu của bản thân nhée. 17+ ròi phải ăn uống đầy đủ và giữ sức khỏe thì mới có sức mà húc tung cổng đại học hiểu chưa?. Tuổi mới đọc được nhiều sách gấp đôi tuổi cũ nữa. Chúc Phương Anh sẽ luôn tỏa sáng theo cách riêng của mình và là niềm tự hào của gia đình, numberone girl 🎊🎉🎊🎉❤️❤️❤️😘, luv u luv v!!";
 
     const balloonPalette = [
       { color: "#ff8fab", glow: "rgba(255, 143, 171, 0.4)" },
@@ -981,7 +1154,6 @@
       setTimeout(() => h.remove(), (durNum + 0.3) * 1000);
     }
 
-    // Thả tim liên tục xuyên suốt mọi giai đoạn
     spawnHeart();
     setInterval(spawnHeart, 520);
 
@@ -1038,16 +1210,70 @@
       });
     }
 
-    function spawnBalloon() {
+    // Tiếng bóng nổ ("bụp") êm & rõ bằng Web Audio API
+    function playBalloonPopSound() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === "suspended") {
+          audioCtx.resume().catch(() => {});
+        }
+        const now = audioCtx.currentTime;
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sine";
+        const baseFreq = 155 + Math.random() * 65;
+        osc.frequency.setValueAtTime(baseFreq, now);
+        osc.frequency.exponentialRampToValueAtTime(48, now + 0.11);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.32, now + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.13);
+      } catch (_) {}
+    }
+
+    function spawnPopBurst(x, y, color) {
+      for (let i = 0; i < 8; i++) {
+        const dot = document.createElement("span");
+        const angle = (Math.PI * 2 * i) / 8 + Math.random() * 0.3;
+        const dist = 22 + Math.random() * 18;
+        dot.className = "pop-burst";
+        dot.style.left = x + "px";
+        dot.style.top = y + "px";
+        dot.style.setProperty("--pop-color", color);
+        dot.style.setProperty("--px", Math.cos(angle) * dist + "px");
+        dot.style.setProperty("--py", Math.sin(angle) * dist + "px");
+        document.body.appendChild(dot);
+        setTimeout(() => dot.remove(), 600);
+      }
+    }
+
+    function popBalloonElement(b, color) {
+      if (!b || !b.isConnected || b.dataset.popped === "1") return;
+      b.dataset.popped = "1";
+      const rect = b.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      playBalloonPopSound();
+      spawnPopBurst(cx, cy, color);
+      b.remove();
+    }
+
+    function spawnByeBalloonWithPop(token = runToken) {
       const b = document.createElement("div");
       const theme = balloonPalette[Math.floor(Math.random() * balloonPalette.length)];
-      const baseSize = window.innerWidth < 500 ? 38 : 46;
-      const size = Math.floor(Math.random() * 18) + baseSize;
-      const left = Math.random() * 84 + 6;
-      const durNum = Number((Math.random() * 1.4 + 4.2).toFixed(1));
+      const baseSize = window.innerWidth < 500 ? 42 : 50;
+      const size = Math.floor(Math.random() * 16) + baseSize;
+      const left = Math.random() * 82 + 8;
+      const durNum = Number((Math.random() * 1.1 + 3.4).toFixed(1));
       const sway = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 18) + 10) + "px";
 
-      b.className = "balloon";
+      b.className = "balloon poppable";
       b.style.setProperty("--size", size + "px");
       b.style.setProperty("--color", theme.color);
       b.style.setProperty("--glow", theme.glow);
@@ -1055,12 +1281,25 @@
       b.style.setProperty("--sway", sway);
       b.style.left = left + "%";
 
+      b.addEventListener("pointerdown", e => {
+        e.stopPropagation();
+        popBalloonElement(b, theme.color);
+      });
+
       balloonLayer.appendChild(b);
+
+      // Tự nổ giữa chừng khi đang bay lên và phát ra tiếng
+      const popDelay = (durNum * (0.42 + Math.random() * 0.35)) * 1000;
+      trackTimeout(() => {
+        if (token === runToken) popBalloonElement(b, theme.color);
+      }, popDelay);
+
       trackTimeout(() => b.remove(), (durNum + 0.5) * 1000);
     }
 
     function runBalloonsAndWaitFinish(count = 10, intervalMs = 180, token = runToken) {
       stopBalloonBurst();
+      balloonLayer.classList.remove("interactive-pop");
       return new Promise((resolve, reject) => {
         let spawned = 0;
         let maxFinishTime = 0;
@@ -1118,6 +1357,7 @@
         clearInterval(byeBalloonTimer);
         byeBalloonTimer = null;
       }
+      balloonLayer.classList.remove("interactive-pop");
     }
 
     async function revealWishWordByWord(text, token) {
@@ -1227,7 +1467,7 @@
         ageFlashStage.classList.remove("active");
         ageFlashStage.style.display = "none";
 
-        // 3. Hiện bánh kem 17 nến + ngọn nến chờ 15s (pháo hoa vẫn tiếp tục)
+        // 3. Hiện bánh kem 17 nến + ngọn nến chờ 15s
         cakeStage.style.display = "flex";
         cakeStage.style.opacity = "1";
         cakeStage.classList.add("active");
@@ -1269,13 +1509,15 @@
         mainContent.classList.remove("visible");
         mainContent.style.display = "none";
 
-        // 6. Hiện BAI BAI trong 10s + bóng bay bay lên
+        // 6. Hiện BAI BAI trong 10s + bóng bay vừa bay lên vừa nổ có tiếng
         baiBaiStage.style.display = "flex";
         baiBaiStage.style.opacity = "1";
         baiBaiStage.classList.add("active");
+        balloonLayer.classList.add("interactive-pop");
+        spawnByeBalloonWithPop(token);
         byeBalloonTimer = setInterval(() => {
-          if (token === runToken) spawnBalloon();
-        }, 280);
+          if (token === runToken) spawnByeBalloonWithPop(token);
+        }, 420);
         await wait(10000, token);
         stopBalloonBurst();
 
