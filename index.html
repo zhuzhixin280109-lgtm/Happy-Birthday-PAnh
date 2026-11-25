@@ -37,6 +37,73 @@
       z-index: 1;
     }
 
+    /* Nhãn dán nhỏ xinh ở góc */
+    .corner-sticker {
+      position: fixed;
+      top: clamp(12px, 2.6dvh, 22px);
+      right: clamp(12px, 3vw, 24px);
+      z-index: 12;
+      padding: 6px 13px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 143, 171, 0.22), rgba(255, 224, 102, 0.2));
+      border: 1px solid rgba(255, 214, 224, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      font-family: "Quicksand", system-ui, sans-serif;
+      font-size: clamp(0.76rem, 2.5vw, 0.92rem);
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      color: #ffe699;
+      box-shadow: 0 4px 16px rgba(255, 143, 171, 0.22);
+      transform: rotate(5deg);
+      pointer-events: none;
+      animation: stickerWiggle 3.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes stickerWiggle {
+      0%   { transform: rotate(4deg) translateY(0); }
+      100% { transform: rotate(8deg) translateY(-3px); }
+    }
+
+    /* Lớp tim bay xuyên suốt */
+    .heart-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 6;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .floating-heart {
+      position: absolute;
+      bottom: -36px;
+      font-size: var(--h-size, 18px);
+      color: var(--h-color, #ff8fab);
+      text-shadow: 0 0 12px var(--h-glow, rgba(255, 143, 171, 0.55));
+      opacity: 0;
+      animation: heartFloatUp var(--h-dur, 5.2s) linear forwards;
+    }
+
+    @keyframes heartFloatUp {
+      0% {
+        transform: translateY(0) translateX(0) scale(0.75) rotate(-8deg);
+        opacity: 0;
+      }
+      15% {
+        opacity: 0.92;
+      }
+      50% {
+        transform: translateY(-52dvh) translateX(var(--h-sway, 14px)) scale(1.05) rotate(8deg);
+      }
+      85% {
+        opacity: 0.78;
+      }
+      100% {
+        transform: translateY(-112dvh) translateX(calc(var(--h-sway, 14px) * -0.5)) scale(0.9) rotate(-6deg);
+        opacity: 0;
+      }
+    }
+
     /* Giai đoạn 1: Nút mở đầu + các câu dẫn */
     .intro-stage {
       position: fixed;
@@ -62,7 +129,8 @@
       transition: opacity 0.8s ease, transform 0.8s ease;
       width: min(780px, 92vw);
       line-height: 1.5;
-      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
 
     .intro-line.show {
@@ -130,7 +198,8 @@
       letter-spacing: clamp(1px, 0.5vw, 3px);
       line-height: 1.12;
       max-width: 94vw;
-      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
       background: linear-gradient(90deg, #ffd6e0, #ffe699, #bde0fe, #ffc6ff, #ffd6e0);
       background-size: 250% auto;
       -webkit-background-clip: text;
@@ -139,9 +208,46 @@
       filter: drop-shadow(0 0 28px rgba(255, 214, 224, 0.45));
     }
 
+    /* Giai đoạn 2.2: 17+ nhấp nháy to đùng + pháo hoa bùm bùm đằng sau */
+    .age-flash-stage {
+      position: fixed;
+      inset: 0;
+      z-index: 9;
+      background: transparent;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.85s ease;
+    }
+
+    .age-flash-stage.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .age-big-blink {
+      position: relative;
+      z-index: 2;
+      font-family: "Quicksand", system-ui, sans-serif;
+      font-size: clamp(4.2rem, 18vw, 11rem);
+      font-weight: 700;
+      letter-spacing: 4px;
+      line-height: 1.05;
+      max-width: 94vw;
+      background: linear-gradient(90deg, #ffd6e0, #ffe699, #bde0fe, #ffc6ff, #ffd6e0);
+      background-size: 250% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: blinkPulse 0.45s ease-in-out infinite alternate, shine 3.5s linear infinite;
+      filter: drop-shadow(0 0 34px rgba(255, 230, 153, 0.55));
+    }
+
     @keyframes blinkPulse {
-      0%   { opacity: 0.25; transform: scale(0.96); }
-      100% { opacity: 1;    transform: scale(1.04); }
+      0%   { opacity: 0.25; transform: scale(0.95); }
+      100% { opacity: 1;    transform: scale(1.06); }
     }
 
     /* Bóng bay bay lên */
@@ -208,7 +314,7 @@
       }
     }
 
-    /* Giai đoạn 2.5: Chiếc bánh kem tự co giãn theo màn hình */
+    /* Giai đoạn 2.5: Chiếc bánh kem 17 cây nến tự co giãn theo màn hình */
     .cake-stage {
       position: fixed;
       inset: 0;
@@ -234,7 +340,7 @@
       font-size: clamp(1.35rem, 4.5vw, 2.55rem);
       font-weight: 700;
       color: #ffe699;
-      margin-bottom: clamp(20px, 5dvh, 44px);
+      margin-bottom: clamp(24px, 5.5dvh, 48px);
       text-shadow: 0 0 18px rgba(255, 230, 153, 0.35);
     }
 
@@ -242,7 +348,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: calc(280px * var(--cake-scale));
+      height: calc(300px * var(--cake-scale));
     }
 
     .big-cake {
@@ -261,55 +367,68 @@
       transform: scale(calc(var(--cake-scale) * 1.03));
     }
 
-    .big-candle {
-      width: 18px;
-      height: 58px;
+    /* Dàn 17 cây nến trên mặt bánh */
+    .candles-row {
+      position: relative;
+      z-index: 4;
+      width: 214px;
+      height: 52px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 6px;
+      margin-bottom: -4px;
+    }
+
+    .mini-candle {
+      width: 8px;
+      height: var(--h, 36px);
+      border-radius: 4px 4px 2px 2px;
+      position: relative;
+      transform: translateY(var(--y-off, 0px));
       background: repeating-linear-gradient(
         135deg,
         #fff9db 0px,
-        #fff9db 8px,
-        #ff8fab 8px,
-        #ff8fab 16px
+        #fff9db 4px,
+        var(--c-stripe, #ff8fab) 4px,
+        var(--c-stripe, #ff8fab) 8px
       );
-      border-radius: 6px 6px 3px 3px;
-      position: relative;
-      z-index: 4;
-      box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.4);
+      box-shadow: inset -1.5px 0 3px rgba(0, 0, 0, 0.18), 0 3px 6px rgba(0, 0, 0, 0.35);
     }
 
-    .big-candle::before {
+    .mini-candle::before {
       content: "";
       position: absolute;
-      top: -8px;
+      top: -5px;
       left: 50%;
       transform: translateX(-50%);
-      width: 3px;
-      height: 9px;
+      width: 1.5px;
+      height: 5px;
       background: #2b2d42;
-      border-radius: 2px;
+      border-radius: 1px;
     }
 
-    .big-flame {
-      width: 24px;
-      height: 38px;
+    .mini-flame {
+      width: 10px;
+      height: 16px;
       background: radial-gradient(circle at 50% 70%, #ffffff 15%, #ffe066 48%, #ff6b6b 88%);
       border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%;
       position: absolute;
-      top: -43px;
+      top: -19px;
       left: 50%;
       transform: translateX(-50%);
-      box-shadow: 0 0 20px #ffe066, 0 0 42px #ff922b, 0 -6px 26px rgba(255, 170, 50, 0.65);
+      box-shadow: 0 0 10px #ffe066, 0 0 18px #ff922b;
       transform-origin: 50% 90%;
-      animation: bigFlicker 0.24s infinite alternate;
+      animation: miniFlicker var(--f-dur, 0.24s) infinite alternate;
     }
 
-    .big-flame.blown {
+    .mini-flame.blown {
       display: none;
     }
 
-    @keyframes bigFlicker {
-      0%   { transform: translateX(-50%) scale(0.95) rotate(-4deg); }
-      100% { transform: translateX(-50%) scale(1.12) rotate(4deg); }
+    @keyframes miniFlicker {
+      0%   { transform: translateX(-50%) scale(0.92) rotate(-4deg); }
+      100% { transform: translateX(-50%) scale(1.14) rotate(4deg); }
     }
 
     .top-berries {
@@ -508,10 +627,12 @@
       position: relative;
       z-index: 2;
       text-align: center;
-      padding: clamp(16px, 4vw, 28px);
-      width: min(1120px, 94vw);
+      padding: clamp(14px, 4vw, 28px);
+      width: 100%;
+      max-width: min(1120px, 100vw);
       max-height: 92dvh;
       overflow-y: auto;
+      overflow-x: hidden;
       scrollbar-width: none;
       display: none;
       opacity: 1;
@@ -544,12 +665,14 @@
 
     .main-title {
       font-family: "Quicksand", system-ui, sans-serif;
-      font-size: clamp(1.4rem, 5.4vw, 3.4rem);
+      font-size: clamp(1.15rem, 4.8vw, 3.3rem);
       font-weight: 700;
-      letter-spacing: 0.3px;
-      line-height: 1.28;
+      letter-spacing: 0.2px;
+      line-height: 1.32;
+      max-width: 100%;
       white-space: normal;
-      word-break: keep-all;
+      overflow-wrap: break-word;
+      word-break: break-word;
       background: linear-gradient(90deg, #ffd6e0, #ffe699, #bde0fe, #ffc6ff, #ffd6e0);
       background-size: 250% auto;
       -webkit-background-clip: text;
@@ -569,14 +692,17 @@
     }
 
     .wish {
-      margin-top: clamp(14px, 3dvh, 22px);
+      margin-top: clamp(12px, 2.8dvh, 22px);
       font-style: italic;
-      font-size: clamp(0.98rem, 3.4vw, 1.42rem);
-      line-height: 1.68;
+      font-size: clamp(0.95rem, 3.6vw, 1.4rem);
+      line-height: 1.65;
       color: #e5e7eb;
-      width: min(740px, 100%);
+      width: 100%;
+      max-width: 720px;
       margin-left: auto;
       margin-right: auto;
+      overflow-wrap: break-word;
+      word-break: break-word;
       opacity: 1;
       transform: none;
     }
@@ -687,6 +813,12 @@
 
   <canvas id="space"></canvas>
 
+  <!-- Nhãn dán nhỏ xinh ở góc -->
+  <div class="corner-sticker">17+ LUV ✨</div>
+
+  <!-- Lớp tim bay xuyên suốt -->
+  <div class="heart-layer" id="heartLayer"></div>
+
   <!-- Lớp bóng bay dùng chung cho lúc HPBD và lúc BAI BAI -->
   <div class="balloon-layer" id="balloonLayer"></div>
 
@@ -702,15 +834,18 @@
     <div class="hbd-big-blink">HAPPY BIRTHDAY</div>
   </div>
 
-  <!-- 2.5. Chiếc bánh kem đẹp + ngọn nến chờ 15s -->
+  <!-- 2.2. 17+ nhấp nháy to đùng + pháo hoa bùm bùm đằng sau -->
+  <div class="age-flash-stage" id="ageFlashStage">
+    <div class="age-big-blink">17+</div>
+  </div>
+
+  <!-- 2.5. Chiếc bánh kem 17 nến + ngọn nến chờ 15s -->
   <div class="cake-stage" id="cakeStage">
     <div class="cake-title">Ước nguyện đi nào ✨</div>
 
     <div class="cake-scale-box">
       <div class="big-cake" onclick="blowOutCandle()">
-        <div class="big-candle">
-          <div class="big-flame" id="bigFlame"></div>
-        </div>
+        <div class="candles-row" id="candlesRow"></div>
 
         <div class="top-berries">
           <div class="berry"></div>
@@ -762,7 +897,7 @@
 
   <!-- 4. BAI BAI xuất hiện sau khi lời chúc biến mất (10s + bóng bay) -->
   <div class="bai-bai-stage" id="baiBaiStage">
-    <div class="bai-bai">BAI BAI</div>
+    <div class="bai-bai">Hết Roi, Muốn nữa thì nhớ ước cho mình có đủ trình để gửi cho PA cái dài hơn nhé:)) *giỡn*😁</div>
   </div>
 
   <!-- 5. Nút nhỏ quay lại từ đầu -->
@@ -772,16 +907,16 @@
 
   <script>
     const introLines = [
-      "hello",
+      "hello🙋‍♀️",
       "Phương Anh ơiii.",
-      "Phương Anh àaa.",
-      "Phương Anh biết hôm nay là ngày gì không????.",
-      "không biết thì bây giờ sẽ biết, OK? 😝",
-      "hehehehe."
+      "Phương Anh àa.",
+      "Phương Anh biết hôm nay là ngày gì koo🤔????.",
+      "kh biết thì bây giờ sẽ biết, OK? 😝",
+      "hehehehe😎."
     ];
 
     const finalWishText =
-      "Tuổi 17 bẻ gãy sừng trâu!!!!, chúc Phương Anh tuổi mới an lành, mạnh giỏi, hạnh phúc, đạt được nhiều thành tích tốt trong học tập và dũng cảm theo đuổi các mục tiêu của bản thân nhéee. Tuổi mới đọc được nhiều sách gấp đôi tuổi cũ nữa. Chúc Phương Anh sẽ luôn tỏa sáng theo cách riêng của mình và là niềm tự hào của gia đình, numberone girl 🎊🎉🎊🎉❤️❤️❤️😘, luv u luv v!!";
+      "Tuổi 17 bẻ gãy sừng trâu!!!!, chúc Phương Anh tuổi mới an lành, mạnh giỏi, hạnh phúc, đạt được nhiều thành tích tốt trong học tập và dũng cảm theo đuổi các mục tiêu của bản thân nhée. Ăn uống đầy đủ protein, chất béo, chất khoáng, chất xơ, vitamin để còn có nhiều sức khỏe còn húc tung cổng đại học 🏫. Tuổi mới đọc được nhiều sách gấp đôi tuổi cũ nữa📚. Chúc Phương Anh sẽ luôn tỏa sáng theo cách riêng của mình và là niềm tự hào của gia đình, numberone girl 🎊🎉🎊💥💪💪💌🍎🍇🍏🍐🍋🍌🥭🍦🎂🎂❤️❤️❤️😘, luv u luv u!!";
 
     const balloonPalette = [
       { color: "#ff8fab", glow: "rgba(255, 143, 171, 0.4)" },
@@ -791,15 +926,24 @@
       { color: "#6ee7b7", glow: "rgba(110, 231, 183, 0.4)" }
     ];
 
+    const heartPalette = [
+      { glyph: "♥", color: "#ff8fab", glow: "rgba(255, 143, 171, 0.65)" },
+      { glyph: "♡", color: "#ffd6e0", glow: "rgba(255, 214, 224, 0.6)" },
+      { glyph: "♥", color: "#ffc6ff", glow: "rgba(255, 198, 255, 0.65)" },
+      { glyph: "♥", color: "#ffe699", glow: "rgba(255, 230, 153, 0.55)" }
+    ];
+
     const introStage = document.getElementById("introStage");
     const startBtn = document.getElementById("startBtn");
     const introLine = document.getElementById("introLine");
     const revealBtn = document.getElementById("revealBtn");
     const hbdFlashStage = document.getElementById("hbdFlashStage");
+    const ageFlashStage = document.getElementById("ageFlashStage");
+    const heartLayer = document.getElementById("heartLayer");
     const balloonLayer = document.getElementById("balloonLayer");
     const cakeStage = document.getElementById("cakeStage");
+    const candlesRow = document.getElementById("candlesRow");
     const teaseStage = document.getElementById("teaseStage");
-    const bigFlame = document.getElementById("bigFlame");
     const cakeHint = document.getElementById("cakeHint");
     const mainContent = document.getElementById("mainContent");
     const line1El = document.getElementById("line1");
@@ -809,12 +953,67 @@
     const replayStage = document.getElementById("replayStage");
 
     let runToken = 0;
-    let mainStageStarted = false;
+    let fireworksActive = false;
     let fireworksTimer = null;
     let balloonTimer = null;
     let byeBalloonTimer = null;
     let candleBlown = false;
     const activeTimeouts = new Set();
+
+    function spawnHeart() {
+      const h = document.createElement("div");
+      const theme = heartPalette[Math.floor(Math.random() * heartPalette.length)];
+      const size = Math.floor(Math.random() * 10) + 14;
+      const left = Math.random() * 92 + 4;
+      const durNum = Number((Math.random() * 2.2 + 4.4).toFixed(1));
+      const sway = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 18) + 8) + "px";
+
+      h.className = "floating-heart";
+      h.textContent = theme.glyph;
+      h.style.setProperty("--h-size", size + "px");
+      h.style.setProperty("--h-color", theme.color);
+      h.style.setProperty("--h-glow", theme.glow);
+      h.style.setProperty("--h-dur", durNum + "s");
+      h.style.setProperty("--h-sway", sway);
+      h.style.left = left + "%";
+
+      heartLayer.appendChild(h);
+      setTimeout(() => h.remove(), (durNum + 0.3) * 1000);
+    }
+
+    // Thả tim liên tục xuyên suốt mọi giai đoạn
+    spawnHeart();
+    setInterval(spawnHeart, 520);
+
+    function buildSeventeenCandles() {
+      candlesRow.innerHTML = "";
+      const total = 17;
+      const stripes = ["#ff8fab", "#7dd3fc", "#ffe066", "#c084fc", "#6ee7b7"];
+
+      for (let i = 0; i < total; i++) {
+        const candle = document.createElement("div");
+        candle.className = "mini-candle";
+
+        const norm = (i - (total - 1) / 2) / ((total - 1) / 2);
+        const yOff = Math.round((norm * norm) * 6);
+        const h = 32 + ((i * 7) % 10);
+        const stripe = stripes[i % stripes.length];
+        const fDur = (0.2 + (i % 5) * 0.035).toFixed(3) + "s";
+
+        candle.style.setProperty("--h", h + "px");
+        candle.style.setProperty("--y-off", yOff + "px");
+        candle.style.setProperty("--c-stripe", stripe);
+
+        const flame = document.createElement("div");
+        flame.className = "mini-flame";
+        flame.style.setProperty("--f-dur", fDur);
+
+        candle.appendChild(flame);
+        candlesRow.appendChild(candle);
+      }
+    }
+
+    buildSeventeenCandles();
 
     function trackTimeout(fn, ms) {
       const id = setTimeout(() => {
@@ -987,9 +1186,10 @@
     function blowOutCandle() {
       if (candleBlown) return;
       candleBlown = true;
-      bigFlame.classList.add("blown");
-      cakeHint.textContent = "phùuu~ điều ước bay đi rồi ✨";
-      boom(W * 0.5, H * 0.38);
+      document.querySelectorAll(".mini-flame").forEach(f => f.classList.add("blown"));
+      cakeHint.textContent = "phùuu~ 17 ngọn nến tắt rồi, điều ước bay đi rồi ✨";
+      boom(W * 0.35, H * 0.35);
+      boom(W * 0.65, H * 0.35);
     }
 
     async function startBirthdayFinale() {
@@ -1003,7 +1203,7 @@
         await wait(800, token);
         introStage.style.display = "none";
 
-        // Hiện HAPPY BIRTHDAY to đùng nhấp nháy + nhạc + bóng bay bay lên hết rồi mới sang bánh kem
+        // 1. Hiện HAPPY BIRTHDAY to đùng nhấp nháy + nhạc + bóng bay
         hbdFlashStage.style.display = "flex";
         hbdFlashStage.style.opacity = "1";
         hbdFlashStage.classList.add("active");
@@ -1015,7 +1215,19 @@
         hbdFlashStage.classList.remove("active");
         hbdFlashStage.style.display = "none";
 
-        // Hiện bánh kem đẹp + ngọn nến chờ 15s
+        // 2. Hiện 17+ nhấp nháy to đùng + pháo hoa bùm bùm đằng sau
+        ageFlashStage.style.display = "flex";
+        ageFlashStage.style.opacity = "1";
+        ageFlashStage.classList.add("active");
+        startAutoFireworks();
+        await wait(3400, token);
+
+        ageFlashStage.style.opacity = "0";
+        await wait(850, token);
+        ageFlashStage.classList.remove("active");
+        ageFlashStage.style.display = "none";
+
+        // 3. Hiện bánh kem 17 nến + ngọn nến chờ 15s (pháo hoa vẫn tiếp tục)
         cakeStage.style.display = "flex";
         cakeStage.style.opacity = "1";
         cakeStage.classList.add("active");
@@ -1026,7 +1238,7 @@
         cakeStage.classList.remove("active");
         cakeStage.style.display = "none";
 
-        // Câu chuyển tiếp sau khi bánh kem biến mất
+        // 4. Câu chuyển tiếp sau khi bánh kem biến mất
         teaseStage.style.display = "flex";
         teaseStage.style.opacity = "1";
         teaseStage.classList.add("active");
@@ -1037,8 +1249,7 @@
         teaseStage.classList.remove("active");
         teaseStage.style.display = "none";
 
-        // Mở màn cuối + tự bắn pháo hoa tung bùm bùm
-        mainStageStarted = true;
+        // 5. Mở màn cuối + lời chúc 20s rồi sang BAI BAI
         mainContent.style.display = "block";
         mainContent.classList.remove("fade-out");
         mainContent.classList.add("visible");
@@ -1058,7 +1269,7 @@
         mainContent.classList.remove("visible");
         mainContent.style.display = "none";
 
-        // Hiện BAI BAI trong 10s + bóng bay bay lên
+        // 6. Hiện BAI BAI trong 10s + bóng bay bay lên
         baiBaiStage.style.display = "flex";
         baiBaiStage.style.opacity = "1";
         baiBaiStage.classList.add("active");
@@ -1068,7 +1279,7 @@
         await wait(10000, token);
         stopBalloonBurst();
 
-        // Hiện nút nhỏ quay lại từ đầu ở cuối
+        // 7. Hiện nút nhỏ quay lại từ đầu ở cuối
         replayStage.style.display = "flex";
         replayStage.style.opacity = "1";
         replayStage.classList.add("active");
@@ -1081,18 +1292,19 @@
       stopBalloonBurst();
       stopMusic();
 
+      fireworksActive = false;
       if (fireworksTimer) {
         clearInterval(fireworksTimer);
         fireworksTimer = null;
       }
 
-      mainStageStarted = false;
       candleBlown = false;
       balloonLayer.innerHTML = "";
+      heartLayer.innerHTML = "";
       sparks = [];
       shooting = [];
+      buildSeventeenCandles();
 
-      // Reset màn Replay & BAI BAI
       replayStage.classList.remove("active");
       replayStage.style.opacity = "0";
       replayStage.style.display = "none";
@@ -1101,7 +1313,6 @@
       baiBaiStage.style.opacity = "0";
       baiBaiStage.style.display = "none";
 
-      // Reset màn lời chúc cuối
       mainContent.classList.remove("visible", "fade-out");
       mainContent.style.display = "none";
       mainContent.scrollTop = 0;
@@ -1109,24 +1320,23 @@
       line2El.innerHTML = "";
       line3El.classList.remove("show");
 
-      // Reset câu chuyển tiếp
       teaseStage.classList.remove("active");
       teaseStage.style.opacity = "0";
       teaseStage.style.display = "none";
 
-      // Reset bánh kem & ngọn nến
       cakeStage.classList.remove("active");
       cakeStage.style.opacity = "0";
       cakeStage.style.display = "none";
-      bigFlame.classList.remove("blown");
       cakeHint.textContent = "ước xong thì hãy thổi nến để ước nguyện được ông trời nghe thấy";
 
-      // Reset HAPPY BIRTHDAY
+      ageFlashStage.classList.remove("active");
+      ageFlashStage.style.opacity = "0";
+      ageFlashStage.style.display = "none";
+
       hbdFlashStage.classList.remove("active");
       hbdFlashStage.style.opacity = "0";
       hbdFlashStage.style.display = "none";
 
-      // Reset màn mở đầu về đúng nút bấm ban đầu
       introLine.textContent = "";
       introLine.classList.remove("show");
       introLine.style.display = "none";
@@ -1146,7 +1356,7 @@
       });
     }
 
-    // --- VŨ TRỤ + TỰ ĐỘNG ĐIỀU CHỈNH TỶ LỆ THEO MỌI MÀN HÌNH ---
+    // --- VŨ TRỤ + PHÁO HOA + TỰ ĐỘNG ĐIỀU CHỈNH TỶ LỆ THEO MỌI MÀN HÌNH ---
     const spaceCanvas = document.getElementById("space");
     const ctx = spaceCanvas.getContext("2d");
     let W, H;
@@ -1155,9 +1365,8 @@
       W = spaceCanvas.width = window.innerWidth;
       H = spaceCanvas.height = window.innerHeight;
 
-      // Tự tính tỷ lệ bánh kem để vừa khít cả điện thoại dọc lẫn ngang
       const widthScale = (W * 0.88) / 364;
-      const heightScale = (H * 0.46) / 280;
+      const heightScale = (H * 0.48) / 300;
       const cakeScale = Math.max(0.55, Math.min(1.08, widthScale, heightScale));
       document.documentElement.style.setProperty("--cake-scale", cakeScale.toFixed(3));
     }
@@ -1195,7 +1404,7 @@
 
     let shooting = [];
     setInterval(() => {
-      if (!mainStageStarted) return;
+      if (!fireworksActive) return;
       shooting.push({
         x: Math.random() * W * 0.8,
         y: Math.random() * H * 0.4,
@@ -1209,32 +1418,34 @@
     let sparks = [];
     function boom(x, y) {
       const colors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#1dd1a1", "#ffffff"];
-      for (let i = 0; i < 70; i++) {
-        const angle = (Math.PI * 2 * i) / 70;
-        const speed = Math.random() * 5.5 + 1.5;
+      for (let i = 0; i < 72; i++) {
+        const angle = (Math.PI * 2 * i) / 72;
+        const speed = Math.random() * 5.8 + 1.6;
         sparks.push({
           x, y,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
           color: colors[Math.floor(Math.random() * colors.length)],
           alpha: 1,
-          size: Math.random() * 2.8 + 1
+          size: Math.random() * 2.9 + 1
         });
       }
     }
 
     function startAutoFireworks() {
+      fireworksActive = true;
       if (fireworksTimer) clearInterval(fireworksTimer);
-      boom(W * 0.28, H * 0.32);
-      trackTimeout(() => { if (mainStageStarted) boom(W * 0.72, H * 0.32); }, 350);
-      trackTimeout(() => { if (mainStageStarted) boom(W * 0.5, H * 0.24); }, 700);
+
+      boom(W * 0.25, H * 0.32);
+      trackTimeout(() => { if (fireworksActive) boom(W * 0.75, H * 0.32); }, 280);
+      trackTimeout(() => { if (fireworksActive) boom(W * 0.5, H * 0.22); }, 560);
 
       fireworksTimer = setInterval(() => {
-        if (!mainStageStarted) return;
-        const fx = W * (0.18 + Math.random() * 0.64);
-        const fy = H * (0.18 + Math.random() * 0.38);
+        if (!fireworksActive) return;
+        const fx = W * (0.16 + Math.random() * 0.68);
+        const fy = H * (0.16 + Math.random() * 0.42);
         boom(fx, fy);
-      }, 950);
+      }, 750);
     }
 
     function render() {
